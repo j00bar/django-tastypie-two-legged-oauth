@@ -90,7 +90,9 @@ def initialize_oauth_server_request(request):
     # Since 'Authorization' header comes through as 'HTTP_AUTHORIZATION', convert it back
     auth_header = {}
     if 'HTTP_AUTHORIZATION' in request.META:
-        auth_header = {'Authorization':request.META.get('HTTP_AUTHORIZATION')}
+        auth_header['Authorization'] = request.META.get('HTTP_AUTHORIZATION')
+    if 'CONTENT_TYPE' in request.META:
+        auth_header['Content-Type'] = request.META.get('CONTENT_TYPE')
 
     absolute_uri = request.build_absolute_uri()
     url = absolute_uri
@@ -99,7 +101,7 @@ def initialize_oauth_server_request(request):
 
     oauth_request = oauth2.Request.from_request(
             request.method, url, headers=auth_header, 
-            parameters=dict(request.REQUEST.items()))
+            parameters=dict(request.GET.items()))
 
     if oauth_request:
         oauth_server = oauth2.Server(signature_methods={
