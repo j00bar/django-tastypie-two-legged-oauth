@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 VERSION = "0.1"
 
 setup(
-    name="fm",
+    name="django-tastypie-two-legged-oauth",
     version = VERSION,
     author="amrox",
     packages=find_packages(),
@@ -13,7 +13,7 @@ setup(
     include_package_data = True,
     zip_safe=False,
     license="None",
-    install_requires=["python-oauth2", "django-tastypie"]
+    install_requires=["django-tastypie"]
 )
 
 
