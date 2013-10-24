@@ -3,3 +3,11 @@
 .project
 .settings
 .pydevproject
+.idea/
+#*#
+*.pyc
+*.pyo
+build/
+dist/
+*.egg-info/
+
