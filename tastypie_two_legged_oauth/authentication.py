@@ -99,9 +99,18 @@ def initialize_oauth_server_request(request):
     if absolute_uri.find('?') != -1:
         url = absolute_uri[:absolute_uri.find('?')]
 
+    # GET parameters can legally have multiple values that need to be taken
+    # into account when validating the request signature
+    parameters = {}
+    for key in request.GET.keys():
+        if key.startswith('oauth_'):
+            parameters[key] = request.GET[key]
+        else:
+            parameters[key] = request.GET.getlist(key)
+
     oauth_request = oauth2.Request.from_request(
             request.method, url, headers=auth_header, 
-            parameters=dict(request.GET.items()))
+            parameters=parameters)
 
     if oauth_request:
         oauth_server = oauth2.Server(signature_methods={
